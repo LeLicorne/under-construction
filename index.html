@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Portfolio — en construction</title>
+    <meta
+      name="description"
+      content="Le portfolio est en chantier. Les plans sont en cours de dessin."
+    />
+    <meta name="theme-color" content="#174a8b" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <noscript>
+      <style>
+        .title {
+          clip-path: inset(-12px) !important;
+          opacity: 1 !important;
+        }
+        .title video {
+          display: none;
+        }
+        .title-fallback {
+          display: block;
+        }
+        .dim {
+          opacity: 1 !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <main class="sheet">
+      <!-- 1. Grille blueprint : lignes + cellules générées par main.js -->
+      <div class="grid" id="grid" aria-hidden="true">
+        <div class="lines" id="lines"></div>
+        <div class="cells" id="cells"></div>
+      </div>
+
+      <!-- 2. Cadre de planche : se trace, puis repères de zones (A–F / 1–4) -->
+      <div class="frame" aria-hidden="true">
+        <div class="mask"></div>
+
+        <!-- cadre extérieur, tracé dans le sens horaire -->
+        <i class="fe o e1"></i><i class="fe o e2"></i><i class="fe o e3"></i
+        ><i class="fe o e4"></i>
+        <!-- cadre intérieur -->
+        <i class="fe n e1"></i><i class="fe n e2"></i><i class="fe n e3"></i
+        ><i class="fe n e4"></i>
+
+        <div class="zones zones-top" id="zonesTop"></div>
+        <div class="zones zones-bottom" id="zonesBottom"></div>
+        <div class="zones zones-left" id="zonesLeft"></div>
+        <div class="zones zones-right" id="zonesRight"></div>
+      </div>
+
+      <!-- 3. Titre animé : se déclenche quand tout le reste est construit -->
+      <section class="stage">
+        <div class="stage-inner">
+          <h1 class="sr-only">Under construction</h1>
+
+          <button
+            class="title"
+            id="title"
+            type="button"
+            aria-label="Rejouer l’animation du titre"
+          >
+            <!-- Safari ne lit pas l’alpha des .webm : voir le README (data-src-safari) -->
+            <video
+              id="titleVideo"
+              muted
+              playsinline
+              preload="auto"
+              aria-hidden="true"
+            >
+              <source src="assets/under-construction.webm" type="video/webm" />
+            </video>
+            <span class="title-fallback" aria-hidden="true"
+              >Under<br />construction</span
+            >
+          </button>
+
+          <!-- Cote : largeur réelle du titre -->
+          <div class="dim" aria-hidden="true"><span id="dimValue">—</span></div>
+        </div>
+      </section>
+
+      <!-- Cartouche : à adapter pour chaque site -->
+      <aside class="titleblock" aria-label="Informations du projet">
+        <dl>
+          <div class="wide">
+            <dt>Projet</dt>
+            <dd data-site="projectName">Portfolio</dd>
+          </div>
+          <div class="wide">
+            <dt>Dessiné par</dt>
+            <dd data-site="author">Baptiste LO RE</dd>
+          </div>
+          <div>
+            <dt>Statut</dt>
+            <dd class="status" data-site="status">En chantier</dd>
+          </div>
+          <div>
+            <dt>Rév.</dt>
+            <dd data-site="revision">0.1</dd>
+          </div>
+          <div>
+            <dt>Date</dt>
+            <dd id="tbDate">—</dd>
+          </div>
+          <div>
+            <dt>Repère</dt>
+            <dd id="tbZone">—</dd>
+          </div>
+          <div class="full">
+            <dt>Contact</dt>
+            <dd>
+              <a
+                href="mailto:contact@baptiste-lore.com"
+                data-site="contactEmail"
+                >contact@baptiste-lore.com</a
+              >
+            </dd>
+          </div>
+        </dl>
+      </aside>
+
+      <!-- Réticule qui suit le pointeur (souris uniquement) -->
+      <div class="crosshair" id="crosshair" aria-hidden="true"></div>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

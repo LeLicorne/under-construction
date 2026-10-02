@@ -1,0 +1,616 @@
+/* ==========================================================================
+   Blueprint — under construction
+   Tout le thème est dans :root. Pour réutiliser : change les couleurs ici,
+   le texte du cartouche dans index.html, et la vidéo dans /assets.
+   Les délais d'animation sont calculés par main.js (objet CONFIG).
+   ========================================================================== */
+
+:root {
+  --bp: #174a8b;
+  --bp-deep: #0f3a73;
+  --bp-glow: #2260ad;
+  --line: #a9cdf5;
+  --line-minor: rgba(169, 205, 245, 0.15);
+  --line-major: rgba(169, 205, 245, 0.34);
+  --paper: #f4f9ff;
+  --signal: #ffcf33;
+
+  --margin-out: 10px;
+  --margin-in: 30px;
+  --inner: calc(var(--margin-in) + 1px);
+  --band: calc(var(--margin-in) - var(--margin-out) - 1px);
+
+  --font-label:
+    "Barlow Condensed", "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
+  --ease-draw: cubic-bezier(0.7, 0, 0.2, 1);
+
+  /* Valeurs par défaut de la chronologie (écrasées par main.js) */
+  --f-edge: 350ms;
+  --f-step: 200ms;
+  --f-inner: 250ms;
+  --t-mask: 250ms;
+  --t-zones: 900ms;
+  --t-block: 2300ms;
+  --block-dur: 650ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse 80% 70% at 50% 45%,
+    var(--bp-glow),
+    var(--bp) 55%,
+    var(--bp-deep)
+  );
+  color: var(--paper);
+  font-family: var(--font-label);
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sheet {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+a:focus-visible,
+.title:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 4px;
+}
+
+/* Tracé : le trait naît en blanc (la « pointe du stylo ») puis se pose à sa couleur */
+@keyframes draw-x {
+  from {
+    scale: 0 1;
+    background-color: var(--paper);
+  }
+}
+@keyframes draw-y {
+  from {
+    scale: 1 0;
+    background-color: var(--paper);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   1. Grille : lignes maîtresses, puis lignes fines, puis unités
+      (carrés dans des carrés) qui se montent en ondulation depuis le centre
+   -------------------------------------------------------------------------- */
+
+.grid {
+  position: absolute;
+  pointer-events: none;
+}
+.lines,
+.cells {
+  position: absolute;
+  inset: 0;
+}
+.cells {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--size));
+  grid-auto-rows: var(--size);
+}
+
+.ln {
+  position: absolute;
+  background: var(--line-minor);
+}
+.ln.major {
+  background: var(--line-major);
+}
+
+.ln.h {
+  left: 0;
+  right: 0;
+  height: 1px;
+  animation: draw-x var(--lines-dur, 900ms) var(--ease-draw) var(--delay, 0ms)
+    backwards;
+}
+.ln.v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  animation: draw-y var(--lines-dur, 900ms) var(--ease-draw) var(--delay, 0ms)
+    backwards;
+}
+
+.cell {
+  position: relative;
+}
+
+.cell::before,
+.cell::after,
+.cell i {
+  content: "";
+  position: absolute;
+  display: none;
+  border: 1px solid var(--line);
+  opacity: calc(0.5 + var(--p, 0) * 0.5);
+  transition:
+    rotate 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.4s;
+  animation: unit-in var(--units-dur, 520ms) cubic-bezier(0.3, 1.4, 0.5, 1)
+    var(--delay, 0ms) backwards;
+}
+
+.cell::before {
+  inset: 14%;
+  rotate: calc(var(--p, 0) * 45deg);
+}
+.cell::after {
+  inset: 29%;
+  rotate: calc(var(--p, 0) * -45deg);
+  animation-delay: calc(var(--delay, 0ms) + 70ms);
+}
+.cell i {
+  inset: 44%;
+  rotate: calc(var(--p, 0) * 90deg);
+  animation-delay: calc(var(--delay, 0ms) + 140ms);
+}
+
+.cell:not([data-u="0"])::before {
+  display: block;
+}
+.cell[data-u="2"]::after,
+.cell[data-u="3"]::after {
+  display: block;
+}
+.cell[data-u="3"] i {
+  display: block;
+}
+
+/* Cellules hachurées : « en cours de remplissage », écho aux lettres du titre */
+.cell[data-h]::before {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--line) 0 1px,
+    transparent 1px 5px
+  );
+}
+
+/* Les carrés se posent en tournant, du plus grand au plus petit */
+@keyframes unit-in {
+  from {
+    scale: 0;
+    opacity: 0;
+    rotate: -90deg;
+  }
+}
+
+/* Redimensionnement : on reconstruit sans rejouer l'intro */
+.grid.static *,
+.grid.static *::before,
+.grid.static *::after {
+  animation: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. Cadre de planche : 8 traits tracés dans le sens horaire, puis repères
+   -------------------------------------------------------------------------- */
+
+.frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Bande pleine entre le bord de l'écran et le cadre intérieur */
+.mask {
+  position: absolute;
+  inset: 0;
+  border: var(--margin-in) solid var(--bp-deep);
+  animation: fade-in 600ms ease var(--t-mask) backwards;
+}
+
+.fe {
+  position: absolute;
+  background: var(--line);
+  --k: 0;
+  animation-duration: var(--f-edge);
+  animation-timing-function: var(--ease-draw);
+  animation-delay: calc(var(--f-off) + var(--k) * var(--f-step));
+  animation-fill-mode: backwards;
+}
+.fe.o {
+  --m: var(--margin-out);
+  --f-off: 0ms;
+}
+.fe.n {
+  --m: var(--margin-in);
+  --f-off: var(--f-inner);
+}
+
+.fe.e1 {
+  top: var(--m);
+  left: var(--m);
+  right: var(--m);
+  height: 1px;
+  --k: 0;
+  transform-origin: 0 50%;
+  animation-name: draw-x;
+}
+.fe.e2 {
+  top: var(--m);
+  right: var(--m);
+  bottom: var(--m);
+  width: 1px;
+  --k: 1;
+  transform-origin: 50% 0;
+  animation-name: draw-y;
+}
+.fe.e3 {
+  bottom: var(--m);
+  left: var(--m);
+  right: var(--m);
+  height: 1px;
+  --k: 2;
+  transform-origin: 100% 50%;
+  animation-name: draw-x;
+}
+.fe.e4 {
+  left: var(--m);
+  top: var(--m);
+  bottom: var(--m);
+  width: 1px;
+  --k: 3;
+  transform-origin: 50% 100%;
+  animation-name: draw-y;
+}
+
+.zones {
+  position: absolute;
+  display: grid;
+  font-size: 12px;
+  animation: fade-in 700ms ease var(--t-zones) backwards;
+}
+.zones span {
+  display: grid;
+  place-items: center;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+.zones span.on {
+  color: var(--signal);
+  background: rgba(255, 207, 51, 0.12);
+}
+
+.zones-top,
+.zones-bottom {
+  left: calc(var(--margin-out) + 1px);
+  right: calc(var(--margin-out) + 1px);
+  height: var(--band);
+  grid-template-columns: repeat(var(--zc, 6), 1fr);
+}
+.zones-top {
+  top: calc(var(--margin-out) + 1px);
+}
+.zones-bottom {
+  bottom: calc(var(--margin-out) + 1px);
+}
+.zones-top span + span,
+.zones-bottom span + span {
+  border-left: 1px solid var(--line);
+}
+
+.zones-left,
+.zones-right {
+  top: var(--margin-in);
+  bottom: var(--margin-in);
+  width: var(--band);
+  grid-template-rows: repeat(var(--zr, 4), 1fr);
+}
+.zones-left {
+  left: calc(var(--margin-out) + 1px);
+}
+.zones-right {
+  right: calc(var(--margin-out) + 1px);
+}
+.zones-left span + span,
+.zones-right span + span {
+  border-top: 1px solid var(--line);
+}
+
+/* --------------------------------------------------------------------------
+   3. Cartouche : se déplie à la fin de la construction
+   -------------------------------------------------------------------------- */
+
+.titleblock {
+  position: absolute;
+  right: var(--inner);
+  bottom: var(--inner);
+  background: var(--bp-deep);
+  animation: block-in var(--block-dur) var(--ease-draw) var(--t-block) backwards;
+}
+@keyframes block-in {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+.titleblock dl {
+  display: grid;
+  grid-template-columns: 1.3fr 0.8fr 1.2fr 0.9fr;
+  width: min(580px, 100vw - 2 * var(--inner));
+}
+.titleblock dl > div {
+  padding: 8px 12px 9px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+.titleblock .wide {
+  grid-column: span 2;
+}
+.titleblock .full {
+  grid-column: 1 / -1;
+}
+.titleblock dt {
+  font-size: 12px;
+  opacity: 0.72;
+}
+.titleblock dd {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.status::before {
+  content: "";
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--signal);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--signal) 0 2px,
+    transparent 2px 5px
+  );
+}
+
+/* --------------------------------------------------------------------------
+   4. Titre : plaque qui s'ouvre quand la planche est terminée, puis vidéo
+   -------------------------------------------------------------------------- */
+
+.stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: calc(var(--margin-in) + 20px);
+  padding-bottom: 90px;
+  pointer-events: none;
+}
+
+.stage-inner {
+  position: relative;
+  pointer-events: auto;
+}
+
+.title {
+  display: block;
+  appearance: none;
+  border: 1px solid var(--line);
+  background: rgba(23, 74, 139, 0.84);
+  padding: clamp(18px, 3.6vw, 44px);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  opacity: 0;
+  clip-path: inset(0 50% 0 50%);
+}
+
+.title video {
+  display: block;
+  width: clamp(300px, calc((100vh - 500px) * 3.5), min(72vw, 680px));
+  height: auto;
+  aspect-ratio: 1142 / 326;
+  opacity: 0;
+  /* le webm a un alpha ~80 % : on le renforce pour un blanc franc */
+  filter: drop-shadow(0 0 0 var(--paper));
+}
+
+body.title-on .title {
+  opacity: 1;
+  clip-path: inset(-12px);
+  transition:
+    clip-path 0.55s var(--ease-draw),
+    opacity 0.2s;
+}
+
+body.title-on .title video {
+  opacity: 1;
+  transition: opacity 0.2s 0.3s;
+}
+
+/* Secours (Safari sans source .mov, échec de lecture) */
+.title-fallback {
+  display: none;
+  font-family: Impact, "Arial Black", Haettenschweiler, sans-serif;
+  font-size: clamp(40px, 9vw, 110px);
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+.no-video .title-fallback {
+  display: block;
+}
+.no-video .title video {
+  display: none;
+}
+
+/* Cote sous le titre : largeur réelle en px */
+.dim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 22px);
+  height: 0;
+  border-top: 1px solid var(--line);
+  opacity: 0;
+}
+body.title-on .dim {
+  opacity: 1;
+  transition: opacity 0.6s 0.5s;
+}
+
+.dim::before,
+.dim::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  width: 1px;
+  height: 14px;
+  background: var(--line);
+  rotate: 45deg;
+}
+.dim::before {
+  left: 0;
+}
+.dim::after {
+  right: 0;
+}
+.dim span {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  translate: -50% -50%;
+  padding: 0 0.8em;
+  background: var(--bp);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   5. Réticule
+   -------------------------------------------------------------------------- */
+
+.crosshair {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background:
+    linear-gradient(var(--paper), var(--paper)) center / 1px 100% no-repeat,
+    linear-gradient(var(--paper), var(--paper)) center / 100% 1px no-repeat;
+}
+.crosshair::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid var(--paper);
+  border-radius: 50%;
+  background: var(--bp);
+}
+.crosshair.on {
+  opacity: 0.9;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .crosshair {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Écrans courts / mobile / accessibilité
+   -------------------------------------------------------------------------- */
+
+@media (max-height: 700px) and (min-width: 641px) {
+  .stage {
+    padding-bottom: 160px;
+  }
+  .titleblock dd {
+    font-size: 16px;
+  }
+  .titleblock dl > div {
+    padding: 5px 10px 6px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --margin-in: 26px;
+  }
+  .stage {
+    padding-bottom: 230px;
+    padding-inline: calc(var(--inner) + 12px);
+  }
+  .title video {
+    width: min(calc(100vw - 2 * (var(--inner) + 12px) - 38px), 520px);
+  }
+  .titleblock {
+    left: var(--inner);
+  }
+  .titleblock dl {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+  }
+  .titleblock .wide {
+    grid-column: 1 / -1;
+  }
+  .titleblock dd {
+    font-size: 16px;
+  }
+  .titleblock dl > div {
+    padding: 6px 10px 7px;
+  }
+}
+
+.no-motion *,
+.no-motion *::before,
+.no-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}
