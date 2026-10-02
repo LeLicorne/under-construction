@@ -3,6 +3,8 @@ services:
     build: .
     restart: unless-stopped
     env_file: .env
+    environment:
+      SITE_URL: https://${DOMAIN}
     networks:
       - web
     labels:

@@ -1,17 +1,40 @@
 <!doctype html>
 <html lang="fr">
   <head>
+    <!-- Les {{PLACEHOLDERS}} sont remplacés au démarrage du conteneur (docker/40-site-config.sh) -->
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
-    <title>Portfolio — en construction</title>
-    <meta
-      name="description"
-      content="Le portfolio est en chantier. Les plans sont en cours de dessin."
-    />
+    <title>{{TITLE}}</title>
+    <meta name="description" content="{{DESCRIPTION}}" />
+    <meta name="author" content="{{AUTHOR}}" />
+    <meta name="robots" content="{{ROBOTS}}" />
+    <link rel="canonical" href="{{SITE_URL}}/" />
     <meta name="theme-color" content="#174a8b" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="{{AUTHOR}}" />
+    <meta property="og:locale" content="{{LOCALE}}" />
+    <meta property="og:title" content="{{AUTHOR}} — {{JOB_TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:url" content="{{SITE_URL}}/" />
+    <meta property="og:image" content="{{OG_IMAGE_URL}}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="{{AUTHOR}} — {{JOB_TITLE}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{AUTHOR}} — {{JOB_TITLE}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION}}" />
+    <meta name="twitter:image" content="{{OG_IMAGE_URL}}" />
+
+    <script type="application/ld+json">
+      {{JSON_LD}}
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -67,7 +90,11 @@
       <!-- 3. Titre animé : se déclenche quand tout le reste est construit -->
       <section class="stage">
         <div class="stage-inner">
-          <h1 class="sr-only">Under construction</h1>
+          <h1 class="sr-only">
+            <span data-site="author">{{AUTHOR}}</span> —
+            <span data-site="jobTitle">{{JOB_TITLE}}</span> (site en
+            construction)
+          </h1>
 
           <button
             class="title"

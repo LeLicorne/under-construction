@@ -326,8 +326,7 @@
     el.textContent = value;
     if (el.tagName === "A") el.href = "mailto:" + value;
   });
-  if (site.projectName)
-    document.title = site.projectName + " — en construction";
+  if (site.title) document.title = site.title;
   if (site.description) {
     document
       .querySelector('meta[name="description"]')
