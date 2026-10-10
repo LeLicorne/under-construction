@@ -11,7 +11,7 @@ Une page, zéro dépendance. Ouvre `index.html` (ou sers le dossier tel quel).
 ## Pages légales
 `mentions-legales.html` et `confidentialite.html` (style dans `legal.css`), liées depuis le cartouche.
 Elles utilisent les mêmes `{{PLACEHOLDERS}}` que `index.html` (`AUTHOR`, `CONTACT_EMAIL`, `SITE_URL`), remplacés au démarrage du conteneur.
-L'hébergeur (OVH) et la date de mise à jour sont écrits en dur : à modifier si ça change, ou dès qu'on ajoute un outil tiers (analytics, formulaire…).
+L'hébergeur (OVH) et la date de mise à jour sont écrits en dur : à modifier si ça change, ou dès qu'on ajoute un outil tiers (formulaire…) : Google Analytics est déjà décrit dans `confidentialite.html`.
 
 ## Séquence
 1. le cadre de planche se trace (sens horaire)
