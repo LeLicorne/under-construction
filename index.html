@@ -32,6 +32,21 @@
     <meta name="twitter:description" content="{{DESCRIPTION}}" />
     <meta name="twitter:image" content="{{OG_IMAGE_URL}}" />
 
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-TPRY7QJEH2"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-TPRY7QJEH2");
+    </script>
+
     <script type="application/ld+json">
       {{JSON_LD}}
     </script>
@@ -158,6 +173,10 @@
                 >contact@baptiste-lore.com</a
               >
             </dd>
+          </div>
+          <div class="full legal">
+            <a href="mentions-legales.html">Mentions légales</a>
+            <a href="confidentialite.html">Confidentialité</a>
           </div>
         </dl>
       </aside>

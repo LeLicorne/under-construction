@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <!-- Les {{PLACEHOLDERS}} sont remplacés au démarrage du conteneur (docker/40-site-config.sh) -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Politique de confidentialité — {{AUTHOR}}</title>
+    <meta
+      name="description"
+      content="Politique de confidentialité et cookies du site de {{AUTHOR}}."
+    />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="{{SITE_URL}}/confidentialite.html" />
+    <meta name="theme-color" content="#174a8b" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="legal.css" />
+  </head>
+  <body>
+    <main class="doc">
+      <p class="back"><a href="./">← Retour à l’accueil</a></p>
+
+      <h1>Politique de confidentialité</h1>
+      <p class="meta">Dernière mise à jour : 10 octobre 2026</p>
+
+      <p>
+        Cette page explique quelles données personnelles sont traitées lors
+        de votre visite, pourquoi, et quels sont vos droits, conformément au
+        Règlement général sur la protection des données (RGPD) et à la loi
+        Informatique et Libertés.
+      </p>
+
+      <h2>Responsable du traitement</h2>
+      <p>
+        <span data-site="author">{{AUTHOR}}</span> —
+        <a href="mailto:{{CONTACT_EMAIL}}" data-site="contactEmail"
+          >{{CONTACT_EMAIL}}</a
+        >
+      </p>
+
+      <h2>En bref</h2>
+      <ul>
+        <li>Aucun cookie, aucun traceur, aucune mesure d’audience.</li>
+        <li>Aucun formulaire, aucun compte utilisateur.</li>
+        <li>Aucune donnée vendue ni utilisée à des fins publicitaires.</li>
+      </ul>
+
+      <h2>Données traitées</h2>
+
+      <h3>Journaux techniques du serveur</h3>
+      <p>
+        Comme tout site web, le serveur enregistre automatiquement des
+        journaux de connexion : adresse IP, date et heure, page demandée,
+        navigateur (user-agent) et code de réponse.
+      </p>
+      <ul>
+        <li>
+          <strong>Finalité :</strong> faire fonctionner le site, assurer sa
+          sécurité et diagnostiquer les erreurs.
+        </li>
+        <li>
+          <strong>Base légale :</strong> intérêt légitime (article 6.1.f du
+          RGPD).
+        </li>
+        <li>
+          <strong>Durée de conservation :</strong> 12 mois maximum.
+        </li>
+        <li>
+          <strong>Destinataires :</strong> l’éditeur et l’hébergeur OVH SAS
+          (serveurs situés dans l’Union européenne).
+        </li>
+      </ul>
+
+      <h3>Polices de caractères (Google Fonts)</h3>
+      <p>
+        Le site charge la police Barlow Condensed depuis le service Google
+        Fonts. Pour l’afficher, votre navigateur se connecte aux serveurs de
+        Google, qui reçoivent votre adresse IP et des informations techniques
+        sur votre navigateur. Google Fonts ne dépose pas de cookie.
+      </p>
+      <ul>
+        <li>
+          <strong>Finalité :</strong> afficher le site avec sa typographie.
+        </li>
+        <li>
+          <strong>Base légale :</strong> intérêt légitime (article 6.1.f du
+          RGPD).
+        </li>
+        <li>
+          <strong>Destinataire :</strong> Google Ireland Limited, Gordon
+          House, Barrow Street, Dublin 4, Irlande. Des données peuvent être
+          transférées à Google LLC aux États-Unis ; Google LLC est certifiée
+          au titre du Data Privacy Framework UE–États-Unis (décision
+          d’adéquation de la Commission européenne du 10 juillet 2023).
+        </li>
+        <li>
+          Plus d’informations :
+          <a href="https://developers.google.com/fonts/faq/privacy"
+            >FAQ confidentialité de Google Fonts</a
+          >
+          et
+          <a href="https://policies.google.com/privacy"
+            >règles de confidentialité de Google</a
+          >.
+        </li>
+      </ul>
+
+      <h3>Contact par e-mail</h3>
+      <p>
+        Si vous m’écrivez, j’utilise votre adresse e-mail et le contenu de votre
+        message uniquement pour vous répondre.
+      </p>
+      <ul>
+        <li>
+          <strong>Base légale :</strong> intérêt légitime à répondre aux
+          demandes (article 6.1.f du RGPD).
+        </li>
+        <li>
+          <strong>Durée de conservation :</strong> 3 ans maximum après le
+          dernier échange.
+        </li>
+      </ul>
+
+      <h2>Cookies</h2>
+      <p>
+        Ce site ne dépose aucun cookie et n’utilise aucun stockage local
+        (localStorage, etc.) sur votre appareil. Aucun bandeau de consentement
+        n’est donc nécessaire.
+      </p>
+
+      <h2>Vos droits</h2>
+      <p>
+        Vous disposez d’un droit d’accès, de rectification, d’effacement,
+        d’opposition, de limitation du traitement et de portabilité de vos
+        données. Pour les exercer, écrivez à
+        <a href="mailto:{{CONTACT_EMAIL}}" data-site="contactEmail"
+          >{{CONTACT_EMAIL}}</a
+        >. Une réponse vous sera apportée dans un délai d’un mois.
+      </p>
+      <p>
+        Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser
+        une réclamation à la CNIL :
+        <a href="https://www.cnil.fr/fr/plaintes">www.cnil.fr/fr/plaintes</a>.
+      </p>
+
+      <h2>Modifications</h2>
+      <p>
+        Cette politique pourra évoluer avec le site (ajout de contenus,
+        d’outils ou de formulaires). La date de mise à jour en haut de page
+        fait foi.
+      </p>
+
+      <p class="back">
+        <a href="mentions-legales.html">Mentions légales</a>
+      </p>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="legal.js"></script>
+  </body>
+</html>

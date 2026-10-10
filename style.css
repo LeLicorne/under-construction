@@ -393,6 +393,20 @@ a:focus-visible,
   font-weight: 600;
   letter-spacing: 0.01em;
 }
+.titleblock .legal {
+  display: flex;
+  gap: 18px;
+  padding-block: 5px 6px;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+.titleblock .legal a {
+  opacity: 0.72;
+}
+.titleblock .legal a:hover,
+.titleblock .legal a:focus-visible {
+  opacity: 1;
+}
 
 .status {
   display: flex;
@@ -584,7 +598,7 @@ body.title-on .dim {
     --margin-in: 26px;
   }
   .stage {
-    padding-bottom: 230px;
+    padding-bottom: 260px;
     padding-inline: calc(var(--inner) + 12px);
   }
   .title video {

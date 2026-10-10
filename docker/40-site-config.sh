@@ -1,9 +1,9 @@
 #!/bin/sh
-# Génère config.js, index.html (SEO inclus), robots.txt et sitemap.xml depuis l'env à chaque démarrage.
+# Génère config.js, les pages HTML (SEO inclus), robots.txt et sitemap.xml depuis l'env à chaque démarrage.
 set -eu
 
 WEB=/usr/share/nginx/html
-TPL=/opt/index.template.html
+TPL=/opt/templates
 
 PROJECT_NAME=${PROJECT_NAME:-Portfolio}
 AUTHOR=${AUTHOR:-Baptiste Lo Re}
@@ -71,13 +71,17 @@ cat > /tmp/jsonld <<EOF
 }
 EOF
 
-cp "$TPL" "$WEB/index.html"
-for pair in \
-  "TITLE=$TITLE" "DESCRIPTION=$DESCRIPTION" "AUTHOR=$AUTHOR" "JOB_TITLE=$JOB_TITLE" \
-  "ROBOTS=$ROBOTS" "SITE_URL=$SITE_URL" "OG_IMAGE_URL=$OG_IMAGE_URL" "LOCALE=$LOCALE"; do
-  key=${pair%%=*}
-  val=$(hesc "${pair#*=}" | sesc)
-  sed -i "s|{{$key}}|$val|g" "$WEB/index.html"
+for tpl in "$TPL"/*.html; do
+  page="$WEB/$(basename "$tpl")"
+  cp "$tpl" "$page"
+  for pair in \
+    "TITLE=$TITLE" "DESCRIPTION=$DESCRIPTION" "AUTHOR=$AUTHOR" "JOB_TITLE=$JOB_TITLE" \
+    "ROBOTS=$ROBOTS" "SITE_URL=$SITE_URL" "OG_IMAGE_URL=$OG_IMAGE_URL" "LOCALE=$LOCALE" \
+    "CONTACT_EMAIL=$CONTACT_EMAIL"; do
+    key=${pair%%=*}
+    val=$(hesc "${pair#*=}" | sesc)
+    sed -i "s|{{$key}}|$val|g" "$page"
+  done
 done
 sed -i -e '/{{JSON_LD}}/{r /tmp/jsonld' -e 'd}' "$WEB/index.html"
 rm -f /tmp/jsonld

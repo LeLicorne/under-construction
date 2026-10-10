@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <!-- Les {{PLACEHOLDERS}} sont remplacés au démarrage du conteneur (docker/40-site-config.sh) -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mentions légales — {{AUTHOR}}</title>
+    <meta name="description" content="Mentions légales du site de {{AUTHOR}}." />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="{{SITE_URL}}/mentions-legales.html" />
+    <meta name="theme-color" content="#174a8b" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="legal.css" />
+  </head>
+  <body>
+    <main class="doc">
+      <p class="back"><a href="./">← Retour à l’accueil</a></p>
+
+      <h1>Mentions légales</h1>
+      <p class="meta">Dernière mise à jour : 10 octobre 2026</p>
+
+      <p>
+        Conformément à l’article 6 de la loi n° 2004-575 du 21 juin 2004 pour
+        la confiance dans l’économie numérique (LCEN), voici les informations
+        relatives à l’éditeur et à l’hébergeur de ce site.
+      </p>
+
+      <h2>Éditeur du site</h2>
+      <dl>
+        <dt>Éditeur</dt>
+        <dd>
+          <span data-site="author">{{AUTHOR}}</span>, personne physique,
+          à titre non professionnel
+        </dd>
+        <dt>Contact</dt>
+        <dd>
+          <a href="mailto:{{CONTACT_EMAIL}}" data-site="contactEmail"
+            >{{CONTACT_EMAIL}}</a
+          >
+        </dd>
+        <dt>Directeur de la publication</dt>
+        <dd><span data-site="author">{{AUTHOR}}</span></dd>
+      </dl>
+      <p>
+        Conformément à l’article 6, III-2 de la LCEN, l’éditeur, agissant à
+        titre non professionnel, a communiqué ses coordonnées complètes à
+        l’hébergeur.
+      </p>
+
+      <h2>Hébergeur</h2>
+      <dl>
+        <dt>Société</dt>
+        <dd>OVH SAS (OVHcloud)</dd>
+        <dt>Adresse</dt>
+        <dd>2 rue Kellermann, 59100 Roubaix, France</dd>
+        <dt>RCS</dt>
+        <dd>Lille Métropole 424 761 419</dd>
+        <dt>Téléphone</dt>
+        <dd>1007 (depuis la France)</dd>
+        <dt>Site</dt>
+        <dd><a href="https://www.ovhcloud.com">www.ovhcloud.com</a></dd>
+      </dl>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        Sauf mention contraire, l’ensemble des contenus de ce site (textes,
+        visuels, animations, logo, code) est la propriété de
+        <span data-site="author">{{AUTHOR}}</span>. Toute reproduction ou
+        représentation, totale ou partielle, sans autorisation préalable est
+        interdite (articles L.122-4 et suivants du Code de la propriété
+        intellectuelle).
+      </p>
+      <p>
+        La police Barlow Condensed est distribuée sous licence SIL Open Font
+        License 1.1.
+      </p>
+
+      <h2>Responsabilité</h2>
+      <p>
+        Le site est actuellement en construction. Les informations qu’il
+        contient sont fournies à titre indicatif et peuvent être incomplètes
+        ou modifiées à tout moment. Les liens vers des sites tiers n’engagent
+        pas la responsabilité de l’éditeur quant à leur contenu.
+      </p>
+
+      <h2>Données personnelles</h2>
+      <p>
+        Le traitement des données personnelles est décrit dans la
+        <a href="confidentialite.html">politique de confidentialité</a>.
+      </p>
+
+      <h2>Droit applicable</h2>
+      <p>
+        Les présentes mentions sont régies par le droit français.
+      </p>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="legal.js"></script>
+  </body>
+</html>

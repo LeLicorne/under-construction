@@ -8,6 +8,11 @@ Une page, zéro dépendance. Ouvre `index.html` (ou sers le dossier tel quel).
 3. **Titre animé** : remplace `assets/under-construction.webm` (WebM VP9 avec alpha, texte clair). Garde le même ratio, sinon ajuste `aspect-ratio` dans `.title video`.
 4. **Rythme / densité** : objet `CONFIG` en haut de `main.js` (cellules, cadre, lignes, ondulation, cartouche, pause avant titre, pointeur, zones). `seed` change la répartition des carrés.
 
+## Pages légales
+`mentions-legales.html` et `confidentialite.html` (style dans `legal.css`), liées depuis le cartouche.
+Elles utilisent les mêmes `{{PLACEHOLDERS}}` que `index.html` (`AUTHOR`, `CONTACT_EMAIL`, `SITE_URL`), remplacés au démarrage du conteneur.
+L'hébergeur (OVH) et la date de mise à jour sont écrits en dur : à modifier si ça change, ou dès qu'on ajoute un outil tiers (analytics, formulaire…).
+
 ## Séquence
 1. le cadre de planche se trace (sens horaire)
 2. lignes maîtresses, puis lignes fines, tracées depuis le centre (trait blanc qui se pose)
